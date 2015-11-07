@@ -1,0 +1,79 @@
+<ion-side-menus enable-menu-with-back-views="true">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-light transparent-nav">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+ 
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left" width="70" class="menuSide">
+    <ion-header-bar class="bar-dark" ng-show="currentUser">
+      <h1 class="title logo" >{{currentUser.email | limitTo: 3 }}</h1>
+    </ion-header-bar>
+    <ion-content class="padding">
+      <div class="buttons">
+            <a ng-click="login()" ng-hide="currentUser" class="button button-clear logo">
+                <i class="icon ion-log-in"></i>
+                <p class="smallText">log in</p>
+            </a>
+          
+            <a href="#/home" class="button button-clear logo" nav-clear menu-close>
+                <i class="icon ion-ios-home-outline"></i>
+                <p class="smallText">home</p>
+            </a>
+          <a ng-show="currentUser" href="#/app/userfavourites" class="button button-clear logo" nav-clear menu-close>
+                <i class="icon ion-ios-heart-outline"></i>
+              <p class="smallText">my favs</p>
+            </a>
+          <a ng-show="currentUser" href="#/app/useritems" class="button button-clear logo" nav-clear menu-close>
+                <i class="icon ion-ios-pricetags-outline"></i>
+              <p class="smallText">my ads</p>
+            </a>
+          <a ng-show="currentUser" href="#/app/usercomments" class="button button-clear logo" nav-clear menu-close>
+                <i class="icon ion-ios-chatboxes-outline"></i>
+              <p class="smallText">messages</p>
+            </a>
+          <a ng-show="currentUser" href="#/app/settings" class="button button-clear logo" nav-clear menu-close>
+                <i class="icon ion-ios-settings"></i>
+              <p class="smallText">settings</p>
+            </a>
+          <a href="#/app/help" class="button button-clear logo" nav-clear menu-close>
+                <i class="icon ion-ios-help-outline"></i>
+              <p class="smallText">help</p>
+            </a>
+
+          <a ng-show="currentUser.get('coords')" href="#/app/nearme" ng-show="currentUser" class="button button-clear logo" nav-clear menu-close>
+                <i class="icon ion-ios-location-outline"></i>
+              <p class="smallText">near me</p>
+            </a>
+          
+            <a ng-click="doLogout()" ng-show="currentUser" class="button button-clear logo" nav-clear menu-close>
+                <i class="icon ion-log-out"></i>
+                <p class="smallText">log out</p>
+            </a>
+
+        </div>
+    </ion-content>
+  </ion-side-menu>
+    
+  <ion-side-menu side="right" width="120" class="menuSide">
+      <ion-content class="padding" ng-controller="CategsCtrl">
+          <a ng-repeat="categ in Categories | orderBy:'categName'" class="button button-clear logo" href="#/app/items/{{categ.id}}" nav-clear menu-close>
+                <i class="icon {{categ.icon}}"></i>
+                <p class="smallText">{{categ.name}}</p>
+          </a>  
+    </ion-content>
+</ion-side-menu>
+  
+</ion-side-menus>
+
+
+

@@ -1,0 +1,47 @@
+<ion-view view-title="Items" hide-nav-bar="true">
+    
+    <ion-header-bar align-title="center" class="bar-light bar-transparent">
+        <div class="buttons">
+            <button class="button button-clear" menu-toggle="left"><i class="icon ion-navicon"></i></button>
+            <a class="button button-clear" ng-click="search()"><i class="icon ion-search"></i></a>
+        </div>
+        <h1 class="title logo">{{categoryName}}</h1>
+        <div class="buttons">
+            <a class="button button-clear" href="#/app/add"><i class="icon ion-ios-plus"></i></a>
+            <button class="button button-clear" menu-toggle="right"><i class="icon ion-ios-albums-outline"></i></button> 
+        </div>
+    </ion-header-bar>
+    
+    <ion-content class="padding">
+
+        <div ng-show="!Items.length" class="center padding">
+            <h1>No listings</h1>
+            <h3>for this category</h3>
+            <h1><i class="icon ion-sad-outline"></i></h1>
+            <h1>&nbsp;</h1>
+            <h1><a href="#/app/add">Add yours</a></h1>
+            
+            
+        </div>
+        
+  <a class="back-{{item.background}} itemBox"ng-repeat="item in Items" href="#/app/item/{{item.id}}">
+      <div class="price">
+      <i ng-show="item.featured || item.staffPicked" class="icon ion-heart labelFeatured"></i> $ {{item.price}}    
+    </div>
+    <div class="image">
+      <img src="{{item.picture}}" width="150" />
+    </div>
+    <div class="location">
+      {{item.location | limitTo:27}}
+    </div>
+    <div class="title">
+      {{item.name | limitTo:12}}    
+    </div>
+  </a>
+  
+    <a ng-show="pagenext < ItemsLength" ng-click="nextPage()" class="button button-clear button-block">
+        <i class="icon ion-ios-refresh-outline"></i>
+    </a>
+  </ion-content>
+    
+</ion-view>

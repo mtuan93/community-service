@@ -1,50 +1,148 @@
-angular.module('starter.services', [])
+angular.module('Helpers.services', [])
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
+.factory('ParseServices', function($rootScope) {
+         
+         return {        
+             
+         getAll: function(Class){
+         
+            var ParseString = Parse.Object.extend(Class);
+            var query = new Parse.Query(ParseString);
+            return query.find().then(function(response){
+                return response;
+            }, function(error){
+                //something went wrong!
+            });
+         },
+             
+         getByTerm: function(Class, term1, term2, skip, limit){
+         
+            var ParseString = Parse.Object.extend(Class);
+            var query = new Parse.Query(ParseString);
+             query.equalTo(term1, term2);
+             if(skip) { query.skip(skip); }
+             if(limit) {query.limit(limit); }
+             if(Class=="Items") { 
+                query.equalTo("approved", true);
+                query.equalTo("blocked", false);
+                query.descending("createdAt");
+             }
+            return query.find().then(function(response){
+                return response;
+            }, function(error){
+                //something went wrong!
+            });
+         },
+             
+        getFirst: function(Class, term1, term2){
+         
+            var ParseString = Parse.Object.extend(Class);
+            var query = new Parse.Query(ParseString);
+             query.equalTo(term1, term2);
+             if(Class=="Items") { 
+                query.equalTo("approved", true);
+                query.equalTo("blocked", false);
+                query.ascending("createdAt");
+             }
+            return query.first().then(function(response){
+                return response;
+            }, function(error){
+                //something went wrong!
+            });
+        },
+             
+        getComments: function(item){
+         
+            var ParseString = Parse.Object.extend("Comments");
+            var query = new Parse.Query(ParseString);
+            query.equalTo("approved", true);
+            if(item) {
+            query.equalTo("item", item); }
+            query.ascending("createdAt");
+            query.include("user");
+            query.include("item");
+            return query.find().then(function(response){
+                return response;
+            }, function(error){
+                //something went wrong!
+            });
+        },
 
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
+         addToFavourites: function(item){
 
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
+            var user = $rootScope.currentUser;
+             var relation = user.relation("favourites");
+             relation.add(item);
+             return user.save().then(function(){
+    
+            }, function(error){
+                //something went wrong!
+            });
+  
+         },
+         
+         userFavourites: function(user){
+
+             var relation = user.relation("favourites");
+             return relation.query().find().then(function(response){
+                return response;
+            });
+ 
+         },
+
+             
+         removeFavourite: function(item){
+
+            var user = $rootScope.currentUser;
+             var relation = user.relation("favourites");
+             relation.remove(item);
+             return user.save().then(function(){
+            }, function(error){
+                //something went wrong!
+            });
+  
+         },
+             
+             
+         nearMe: function(userObject, limit){
+             
+             var PlaceObject = Parse.Object.extend("Items");
+             var userGeoPoint = userObject.get("coords");
+             var query = new Parse.Query(PlaceObject);     
+             query.near("itemCoords", userGeoPoint);
+             query.limit(limit);
+             
+            return query.find().then(function(response){
+                return response;
+            }, function(error){
+                //something went wrong!
+            });
+            
+ 
+         },
+     
         }
-      }
-      return null;
-    }
-  };
-});
+         
+         })
+
+        
+
+
+.factory('locationService', function($http) {
+         var locations = [];
+         var latlng = "";
+         
+         return {
+         getLocation: function(latlng){
+         return $http({
+                      url: "http://maps.googleapis.com/maps/api/geocode/json?latlng="+latlng+"&sensor=true", //*** location service URL here ***
+                      method: "GET",
+                      }).then(function(response){
+                              locations = response.data;
+                              return locations;
+                              }, function(error){
+                              //something went wrong!
+                              });
+         }
+         }
+         })

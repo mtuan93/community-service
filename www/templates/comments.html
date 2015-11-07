@@ -1,0 +1,33 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Comments</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeComments()"><i class="icon ion-ios-close-outline"></i></button>
+    </div>
+  </ion-header-bar>
+  <ion-content ng-controller="CommentsCtrl">
+      <p ng-hide="currentUser.email" class="center">Login / Register to comment</p>
+    <form ng-submit="doComment(ItemData)" ng-show="currentUser.email"> 
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Add your message</span>
+          <input type="text" ng-model="commentData.comment">
+        </label>
+        <label class="item">
+          <button class="button button-block button-calm" type="submit">Comment</button>
+        </label>
+      </div>
+    </form>
+      
+   
+  <div class="list" ng-init="getComments()">
+    <a class="item item-avatar"  ng-repeat="comment in Comments">
+            <img src="{{comment.userAvatar}}">
+            <h2>{{comment.userEmail | limitTo:3}}</h2>
+            <p>{{comment.comment}}</p>
+      
+    </a>
+</div>
+          
+  </ion-content>
+</ion-modal-view>

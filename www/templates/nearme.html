@@ -1,0 +1,61 @@
+<ion-view view-title="" hide-nav-bar="true">
+    
+    <ion-header-bar align-title="center" class="bar-light bar-transparent">
+        <div class="buttons">
+            <button class="button button-clear" menu-toggle="left"><i class="icon ion-navicon"></i></button>
+            <a class="button button-clear" ng-click="search()"><i class="icon ion-search"></i></a>
+        </div>
+        <h1 class="title logo">near me</h1>
+        <div class="buttons">
+            <a class="button button-clear" href="#/app/add"><i class="icon ion-ios-plus"></i></a>
+            <button class="button button-clear" menu-toggle="right"><i class="icon ion-ios-albums-outline"></i></button> 
+        </div>
+    </ion-header-bar>
+
+    <ion-content>    
+    
+        
+        
+        <map style="width:1000px; height:1000px;"
+             center="{{currentUser.get('coords').latitude}},{{currentUser.get('coords').longitude}}" 
+             zoom="14"
+             disable-default-u-i="true"
+             disable-double-click-zoom="true"
+             draggable="true"
+         >
+            
+            <span ng-repeat="item in nearItems">
+            <marker 
+                id="{{item.id}}"
+                position="[{{item.coords}}]"
+                draggable="true"
+                visible="true"
+                icon="img/marker.png"
+                title="{{item.name}}" 
+                    on-click="showInfoWindow(event, 'window')"
+                ></marker>            
+            
+                <info-window id="window" visible-on-marker="{{item.id}}">
+                     <div ng-non-bindable>
+                        <div id="siteNotice"></div>
+                          <h5 id="firstHeading" class="firstHeading">{{item.name}}</h5>
+                          <p>{{item.location}}</p>
+                          <a href="#/app/item/{{item.id}}" class="button button-clear">details <i class="icon ion-ios-arrow-forward"></i> </a>
+                          <h1>&nbsp;</h1>
+                        <div id="bodyContent">
+                          <p></p>
+                        </div>
+                    </div>
+                </info-window>
+            </span>
+        </map>
+        
+        
+  </ion-content>
+    
+</ion-view>
+
+
+
+
+

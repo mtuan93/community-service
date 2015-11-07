@@ -1,0 +1,46 @@
+<ion-view view-title="" hide-nav-bar="true">
+    
+    <ion-header-bar align-title="center" class="bar-light bar-transparent">
+        <div class="buttons">
+            <button class="button button-clear" menu-toggle="left"><i class="icon ion-navicon"></i></button>
+        </div>
+        <h1 class="title logo">settings</h1>
+        <div class="buttons">
+            <button class="button button-clear" menu-toggle="right"><i class="icon ion-ios-albums-outline"></i></button> 
+        </div>
+    </ion-header-bar>
+    
+    <ion-content class="padding">        
+        
+        <div class="list">
+
+            <div class="item item-thumbnail-left" ng-repeat="user in User">
+                <img id="myAvatar" src="{{user.avatar}}">
+                <h2><i class="icon ion-ios-email-outline"></i> {{user.email}}</h2>
+                <p><i class="icon ion-ios-navigate-outline"></i> {{user.location}}</p>
+                <p><i class="icon ion-ios-telephone-outline"></i> {{user.phone}}</p>
+            </div>
+            
+            <list class="item item-input item-button-right">
+          <span class="input-label">Select a new location</span>
+          <input type="text" ng-model="userData.location">
+            <a class="button button-clear" ng-click="getLocation()">
+                <i class="icon ion-ios-navigate-outline"></i>
+            </a>
+        </list>
+            
+            <h5 class="center">Select profile picture</h5>
+            <div class="row selectPictureIcons center">
+                <div class="col borderRight back-1">
+                    <i ng-click="getImage()" class="icon ion-images"></i>
+                </div>
+                <div class="col back-2">
+                    <i ng-click="getCamera()" class="icon ion-camera"></i>
+                </div>
+            </div>
+                        
+        </div>
+          
+    </ion-content>
+    
+</ion-view>

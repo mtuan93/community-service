@@ -1,0 +1,70 @@
+<ion-view view-title="" hide-nav-bar="true" ng-init="getItemDetails()">
+    <span ng-repeat="item in Item">
+    <ion-header-bar align-title="center" class="bar-light bar-transparent">
+        <div class="buttons">
+            <button class="button button-clear" ng-click="myGoBack()"><i class="icon ion-ios-arrow-back"></i></button>
+        </div>
+        <h1 class="title logo">{{item.name}}</h1>
+        <div class="buttons">
+            <a class="button button-clear" ng-click="itemDetails()"><i class="icon ion-ios-information"></i></a>
+        </div>
+    </ion-header-bar>
+    
+    <ion-content ng-repeat="user in Submitter">
+
+        <div class="itemimgHolder">            
+            <div class="itemPrice"><span class="currencySign">$</span> {{item.price}}</div>
+            <img src="{{item.picture}}" width="100%" />
+        </div>
+
+        <div id="mapDisplay">
+        <map 
+             center="{{item.lat}},{{item.lon}}" 
+             zoom="14"
+             disable-default-u-i="true"
+             disable-double-click-zoom="true"
+             draggable="true">
+            <marker
+                position="[{{item.lat}},{{item.lon}}]"
+                animation="Animation.BOUNCE"
+                draggable="false"
+                icon="img/marker.png"></marker>
+        </map>
+        </div>
+        
+        <span class=" button-bar">
+            <a ng-click="addToFavourites()" ng-show="currentUser.email" class="button  back-4">
+                <i class="icon ion-ios-heart-outline"></i>
+            </a>
+            <a ng-click="onShare()" class="button back-5 ">
+                <i class="icon ion-ios-upload-outline"></i>
+            </a>
+            <a ng-click="comments()" class="button back-6 ">
+                <i class="icon ion-ios-chatboxes-outline"></i>
+            </a>
+            <a ng-href="tel:{{user.phone}}" class="button  back-7 ">
+                <i class="icon ion-ios-telephone-outline"></i>
+            </a>
+            <a ng-href="mailto:{{user.email}}?subject=Classy - New message for {{item.name}}" class="button  back-8 ">
+                <i class="icon ion-ios-email-outline"></i>
+            </a>
+            <a ng-hide="(item.lat == 0 && item.lon == 0)" ng-click="itemMap()" class="button back-9 ">
+                <i class="icon ion-map"></i>
+            </a>
+            
+        </span>
+        
+    </ion-content>
+    
+    <ion-footer-bar>
+        <div class="buttons">
+            <button class="button button-clear" menu-toggle="left"><i class="icon ion-navicon"></i></button>
+        </div>
+        <h1 class="title logo"></h1>
+        <div class="buttons">
+            <a class="button button-clear" href="#/app/add"><i class="icon ion-ios-plus"></i></a>
+            <button class="button button-clear" menu-toggle="right"><i class="icon ion-ios-albums-outline"></i></button>
+        </div>
+    </ion-footer-bar>
+    </span>
+</ion-view>

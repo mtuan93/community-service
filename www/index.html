@@ -4,38 +4,55 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
-
+    
+    <!-- Ionic -->
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        
+    <!-- Ionicons -->
+    <link href="css/ionicons.css" rel="stylesheet">
+      
+    <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
-
+      
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
+   
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+    <!-- Google Maps -->
+    <script src="https://maps.google.com/maps/api/js"></script>
+    <script src="lib/ngmap/build/scripts/ng-map.min.js"></script>
+      
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
+    <script src="js/parse.js"></script>
+    <script src="js/parse-keys.js"></script>
+      
+    <script language="javascript" type="text/javascript">
+   <!--disable enter key / go button iphone - used for the submit listing form-->
+   function stopRKey(evt) {
+      var evt = (evt) ? evt : ((event) ? event : null);
+      var node = (evt.target) ? evt.target : 
+                               ((evt.srcElement) ? evt.srcElement : null);
+      if ((evt.keyCode == 13) && (node.type=="text")) {return false;}
+      if ((evt.keyCode == 13) && (node.type=="email")) {return false;}
+      if ((evt.keyCode == 13) && (node.type=="tel")) {return false;}
+      if ((evt.keyCode == 13) && (node.type=="number")) {return false;}
+   }
+
+   document.onkeypress = stopRKey; 
+</script>
+      
   </head>
-  <body ng-app="starter">
-    <!--
-      The nav bar that will be updated as we navigate between views.
-    -->
-    <ion-nav-bar class="bar-stable">
-      <ion-nav-back-button>
-      </ion-nav-back-button>
-    </ion-nav-bar>
-    <!--
-      The views will be rendered in the <ion-nav-view> directive below
-      Templates are in the /templates folder (but you could also
-      have templates inline in this html file if you'd like).
-    -->
+
+  <body ng-app="Helpers" class="platform-ios platform-cordova platform-webview">
     <ion-nav-view></ion-nav-view>
   </body>
 </html>

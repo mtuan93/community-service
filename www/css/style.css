@@ -1,1 +1,125 @@
-/* Empty. Add your own CSS if you like */
+/* to add 
+    currency
+    ios separate and android separate
+    gallery plugin here: https://github.com/wymsee/cordova-imagePicker + ionic slide-box - carousel
+    search bar
+    edit profile + avatar
+*/
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
+@import url(http://fonts.googleapis.com/css?family=Satisfy);
+* { font-family: 'Roboto', sans-serif !important;}
+h1,h2,h3, h4, h5 { font-weight:100; }
+p { font-weight: 300;}
+h6,a,small { font-weight:300; }
+a {text-decoration: none; color: inherit;}
+.center { text-align: center;}
+
+.bar-light { background-color: rgba(255,255,255,.50) !important; }
+
+.bar-subheader { }
+.bar-subheader-active {  }
+
+.scroll-content {
+  overflow: visible !important;
+}
+
+.padding { margin-bottom: 70px;}
+
+.icon { color: #8da7a9;}
+.button-bar .icon, .itemDetailsBox h5, .itemDetailsBox h3, .itemDetailsBox p  { color: #fff;}
+.itemDetailsBox .icon { font-size: 31px; color:#fff;}
+.button-bar .button { border: 0px; padding: 20px 10px;}
+
+
+.modal { background-color: rgba(255,255,255,.9) !important;}
+
+.bar-header .button.button-clear .ion-ios-plus:before, .bar-header .button.button-clear.ion-ios-plus:before, .bar-header .button.button-clear .ion-map:before, .bar-header .button.button-clear.ion-map:before, .bar-header .button.button-clear .ion-ios-information:before, .bar-header .button.button-clear.ion-ios-information:before { font-size: 45px; margin-left: 20px; margin-top: 10px; color: #4DD0E1;}
+
+.bar-header .button.button-clear .ion-search:before, .bar-header .button.button-clear.ion-search:before { font-size: 45px; margin-right: 20px; margin-top: 10px; color: #4DD0E1;}
+
+.bar-footer .button.button-clear .ion-ios-plus:before, .bar-footer .button.button-clear.ion-ios-plus:before, .bar-footer .button.button-clear .ion-ios-information:before, .bar-footer .button.button-clear.ion-ios-information:before { font-size: 45px; margin-right: 20px; margin-top: -10px; color: #4DD0E1;}
+
+
+.pane { background: #ECEFF1 ;}
+.itemBox { background: #fff;}
+.itemBox .price { background: #fff ; color: #333; min-width: 50px; }
+.itemBox .title { background: #fff; color: #666; }
+.itemBox .location { opacity: 0.5; }
+
+
+.logo, .title { text-transform: uppercase !important; font-weight: 800 !important; font-size: 9px !important; letter-spacing: 4px; color: #8da7a9 !important;}
+
+.list, .item { background: transparent !important; border: 0px !important;}
+
+.item-input { border-bottom: 1px solid !important; border-color: rgba(0,0,0,.1) !important; }
+.input-label { font-size: 12px !important; color: #8da7a9; }
+
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] { font-size: 12px !important; color: #8da7a9;}
+
+.validError { color:red; font-size: 10px;}
+
+.selectPictureIcons .icon { font-size:40px; color: #fff; }
+.selectPictureIcons .col { padding: 30px;}
+
+.item-select select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] { background: transparent;}
+
+.menuSide { text-align: center;}
+.menuSide a { margin-bottom: 5px;}
+.menuSide .smallText {  font-size:8px; margin: 0px; padding: 0px; margin-top: -10px; letter-spacing: normal; line-height: normal;}
+
+.back-1 {background: #F06292; color: #fff;}
+.back-2 {background: #BA68C8; color: #fff;}
+.back-3 {background: #9575CD; color: #fff;}
+.back-4 {background: #7986CB; color: #fff;}
+.back-5 {background: #64B5F6; color: #fff;}
+.back-6 {background: #4FC3F7; color: #fff;}
+.back-7 {background: #4DD0E1; color: #fff;}
+.back-8 {background: #4DB6AC; color: #fff;}
+.back-9 {background: #81C784; color: #fff;}
+.back-10 {background: #AED581; color: #333;}
+.back-11 {background: #DCE775; color: #333;}
+.back-12 {background: #FFD54F; color: #333;}
+.back-13 {background: #FFB74D; color: #333;}
+.back-14 {background: #FF8A65; color: #fff;}
+.back-15 {background: #A1887F; color: #fff;}
+.back-w { background: #fff;}
+
+.button-calm { border: 0px; background: #4DB6AC !important; color: #333;}
+.button.button-positive { border: 0px; background: #4DD0E1 !important; color: #fff;}
+
+
+.itemBox { width: 46%; float: left; margin: 2%; padding: 30px 0px 0px 0px; text-align: center; -webkit-border-radius: 5px; border-radius: 5px;}
+.itemBox .image { width: 90px; height: 90px; overflow: hidden; margin: 0 auto; -webkit-border-radius: 50px; border-radius: 50px; margin-bottom: 20px;}
+.itemBox .location { text-transform: uppercase; font-size: 9px; }
+.itemBox .price { position: absolute; padding: 5px; margin-top: -30px; -webkit-border-radius: 5px 0 0 0; border-radius: 5px 0 0 0; font-size: 11px;}
+.itemBox .title {  margin: 0px; padding: 10px 0px; -webkit-border-radius: 0 0 5px 5px; border-radius: 0 0 5px 5px;  font-size: 11px;}
+
+.itemDetailsBox .image { width: 170px; height: 170px; overflow: hidden; margin: 0 auto; -webkit-border-radius: 250px; border-radius: 250px; margin-bottom: 20px;}
+
+.bottomItemButtons { text-align: center;}
+.bottomItemButtons a { margin: 0px 10px; }
+.itemimgHolder { }
+.detailsField { padding: 20px 10px;}
+
+.itemLocation { background: #81C784; padding: 5px 20px;  margin-top: 5px; color: #fff;}
+.itemPrice { position: absolute; background: #F06292; padding: 5px 20px; margin-top: 5px; color: #fff; font-weight: 600; font-size: 16px;}
+.currencySign { opacity: 0.5;}
+
+#mapDisplay { height: 0px; overflow: hidden; -webkit-transition: all .5s ease;
+-moz-transition: all .5s ease;
+-ms-transition: all .5s ease;
+-o-transition: all .5s ease;
+transition: all .5s ease;}
+
+.itemRowList { font-size: 12px; font-weight: 100;}
+.itemRowList { margin: 5px 0px 5px 0px !important;}
+.itemRowList .icon { font-size: 24px; margin-right: 0px; padding: 5px 10px;}
+
+.comment { padding:10px 20px; }
+
+.helpSlider .icon { color:#fff;}
+
+.labelFeatured { color: #F06292;}
+
+.barFooter .button-small { padding-top: 0px;}

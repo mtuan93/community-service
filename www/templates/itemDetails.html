@@ -1,0 +1,27 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Details</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeDetails()"><i class="icon ion-ios-close-outline"></i></button>
+    </div>
+  </ion-header-bar>
+  <ion-content ng-repeat="item in Item">
+   
+      <div class="itemDetailsBox">
+          
+          <div class="back-5 detailsField center">
+                <h3>{{item.name}}</h3>
+          </div>
+          
+          <div class="back-7 detailsField center">
+                <h4>{{item.location}}</h4>
+          </div>
+      
+          <div class="back-8 detailsField center">
+              <p>{{item.description}}</p>
+          </div>
+          
+      </div>
+      
+  </ion-content>
+</ion-modal-view>

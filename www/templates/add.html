@@ -18,10 +18,10 @@
                 <div class="col">
                     
                     <label class="item item-input item-floating-label">
-                        <span class="input-label">What do you want to sell?</span>
-                        <input type="text" placeholder="What do you want to sell?" ng-model="item.itemName" name="name" required ng-change="update(itemName)">
+                        <span class="input-label">What is your campaign?</span>
+                        <input type="text" placeholder="What is your campaign?" ng-model="item.itemName" name="name" required ng-change="update(itemName)">
                             <span class="validError" ng-show="myForm.name.$dirty && myForm.name.$invalid">
-                                <span ng-show="myForm.name.$error.required">Product name is required.</span>
+                                <span ng-show="myForm.name.$error.required">Campaign name is required.</span>
                             </span>
                             </label>
                     
@@ -63,21 +63,7 @@
             </div>
             
             <img id="myImage" style="width:50%; margin-left: 25%;" />
-            
-            
-            <div class="row">
-                <div class="col">
-                    
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Price (USD) ?</span>
-                        <input type="tel" placeholder="Price (USD) ?" ng-model="item.itemPrice" name="price" required>
-                            <span class="validError" ng-show="myForm.price.$dirty && myForm.price.$invalid">
-                                <span ng-show="myForm.price.$error.required">Price is required.</span>
-                            </span>
-                            </label>
-                    
-                </div>
-            </div>
+        
             
             <div class="row" ng-show="!currentUser.email">
                 <div class="col">

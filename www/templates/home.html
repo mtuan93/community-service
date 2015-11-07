@@ -19,9 +19,6 @@
         <h4 class="center">Featured</h4>
         
         <a class="back-{{item.background}} itemBox"ng-repeat="item in featuredItems" href="#/app/item/{{item.id}}">
-            <div class="price">
-                $ {{item.price}}    
-            </div>
             <div class="image">
                 <img src="{{item.picture}}" width="150" />
             </div>
@@ -40,9 +37,6 @@
         <h4 class="center">Staff Picks</h4>
         
         <a class="back-{{item.background}} itemBox"ng-repeat="item in staffItems" href="#/app/item/{{item.id}}">
-            <div class="price">
-                $ {{item.price}}    
-            </div>
             <div class="image">
                 <img src="{{item.picture}}" width="150" />
             </div>
@@ -62,9 +56,6 @@
         <h4 class="center">Newest</h4>
         
         <a class="back-{{item.background}} itemBox"ng-repeat="item in newestItems" href="#/app/item/{{item.id}}">
-            <div class="price">
-                $ {{item.price}}    
-            </div>
             <div class="image">
                 <img src="{{item.picture}}" width="150" />
             </div>

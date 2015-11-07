@@ -1022,13 +1022,12 @@ $scope.getItemDetails = function() {
                     Item.set("blocked", false);
                     Item.set("featured", false);
                     Item.set("itemDescription", $scope.item.itemDescription);
-                    Item.set("itemPrice", $scope.item.itemPrice);
                     Item.set("reported", false);
                     Item.set("staffPicked", false);
                     Item.set("categorySelect", $scope.item.categorySelect);
-                        Item.set("itemCoords", $rootScope.currentUser.get('coords'));
-                        Item.set("itemLocation", $rootScope.currentUser.get('location'));
-                        Item.set("user", $rootScope.currentUser.get('email'));
+                    Item.set("itemCoords", $rootScope.currentUser.get('coords'));
+                    Item.set("itemLocation", $rootScope.currentUser.get('location'));
+                    Item.set("user", $rootScope.currentUser.get('email'));
                     Item.set("background", Math.floor((Math.random()*6)+1));
                     Item.set("itemPicture", $scope.parseFile);
                     Item.save();
@@ -1050,17 +1049,13 @@ $scope.getItemDetails = function() {
             } else {
             $scope.item.coords = new Parse.GeoPoint({latitude: 0, longitude: 0});
             }
-            
-            
-            
                     var ItemCreate = Parse.Object.extend("Items");
                     var Item = new ItemCreate();  
                     Item.set("itemName", $scope.item.itemName);
-                    Item.set("approved", false);
+                    Item.set("approved", true);
                     Item.set("blocked", false);
                     Item.set("featured", false);
                     Item.set("itemDescription", $scope.item.itemDescription);
-                    Item.set("itemPrice", $scope.item.itemPrice);
                     Item.set("reported", false);
                     Item.set("staffPicked", false);
                     Item.set("categorySelect", $scope.item.categorySelect);

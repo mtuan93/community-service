@@ -85,6 +85,16 @@ angular.module('Helpers', ['ionic', 'Helpers.controllers', 'Helpers.services', '
         }
     })
 
+        .state('app.leaderboard', {
+        url: "/leaderboard",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/leaderboard.html",
+                controller: 'LeaderCtrl'
+            }
+        }
+    })
+
     .state('app.useritems', {
         url: "/useritems",
         views: {

@@ -129,8 +129,7 @@ angular.module('Helpers.controllers', [])
         user.set("location", $scope.registerData.location);
         user.set("coords", $scope.registerData.coords);
         user.set("avatar", $scope.parseFileavatar);
-
-
+        user.set("points", 0);
 
         user.signUp(null, {
             success: function(user) {
@@ -399,6 +398,14 @@ angular.module('Helpers.controllers', [])
     }
 })
 
+.controller('LeaderCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+    $scope.nextSlide = function() {
+        $ionicSlideBoxDelegate.next();
+    }
+    $scope.gotoHome = function() {
+        $state.transitionTo("app.home");
+    }
+})
 
 .controller('HomeCtrl', function($scope, $ionicLoading, ParseServices) {
     $ionicLoading.show({

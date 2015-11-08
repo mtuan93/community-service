@@ -74,7 +74,10 @@ angular.module('Helpers.services', [])
             var user = $rootScope.currentUser;
             var relation = user.relation("favourites");
             this.getFirst('Items', "objectId", item.id).then(function(response) {
-                response.set('user', {email: $rootScope.currentUser.email, isGraded: false});
+                var old = response.get('user');
+                if(!old) old = [];
+                old.push({email: $rootScope.currentUser.email, isGraded: false});
+                response.set('user', old);
                 response.save();
             }, function(error) {
                 //Something went wrong!

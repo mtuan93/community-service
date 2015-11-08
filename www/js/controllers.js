@@ -47,12 +47,12 @@ angular.module('Helpers.controllers', [])
                     $rootScope.currentUser = currentUser;
                     $rootScope.currentUser.email = currentUser.get('email');
                 } else if (currentUser && currentUser.get('emailVerified') == "0") {
-                    $rootScope.currentUser = null;
                     $rootScope.currentUser.email = null;
+                    $rootScope.currentUser = null;
                     alert('Please verify your email');
                 } else {
-                    $rootScope.currentUser = null;
                     $rootScope.currentUser.email = null;
+                    $rootScope.currentUser = null;
                 }
 
                 $scope.loginModal.hide();
@@ -444,64 +444,19 @@ angular.module('Helpers.controllers', [])
         template: 'Loading...'
     });
 
-    $scope.featuredItems = [];
-    $scope.staffItems = [];
-    $scope.newestItems = [];
+    $scope.items = [];
 
-    ParseServices.getByTerm('Items', "featured", true, 0).then(function(response) {
-
+    ParseServices.getAll('Items').then(function(response) {
         for (var i = 0; i < response.length; i++) {
-            $scope.featuredItems.push({
+            $scope.items.push({
                 price: response[i].get('itemPrice'),
                 location: response[i].get('itemLocation'),
                 name: response[i].get('itemName'),
                 background: response[i].get('background'),
                 picture: response[i].get('itemPicture')._url,
-                featured: response[i].get('featured'),
-                staffPicked: response[i].get('staffPicked'),
-                id: response[i].id,
-            })
+                id: response[i].id
+            });
         }
-
-        $ionicLoading.hide();
-    }, function(error) {
-        //Something went wrong!
-    });
-
-    ParseServices.getByTerm('Items', "staffPicked", true, 0).then(function(response) {
-        for (var i = 0; i < response.length; i++) {
-            $scope.staffItems.push({
-                price: response[i].get('itemPrice'),
-                location: response[i].get('itemLocation'),
-                name: response[i].get('itemName'),
-                background: response[i].get('background'),
-                picture: response[i].get('itemPicture')._url,
-                featured: response[i].get('featured'),
-                staffPicked: response[i].get('staffPicked'),
-                id: response[i].id,
-            })
-        }
-
-        $ionicLoading.hide();
-    }, function(error) {
-        //Something went wrong!
-    });
-
-    ParseServices.getByTerm('Items', "approved", true, 0).then(function(response) {
-
-        for (var i = 0; i < response.length; i++) {
-            $scope.newestItems.push({
-                price: response[i].get('itemPrice'),
-                location: response[i].get('itemLocation'),
-                name: response[i].get('itemName'),
-                background: response[i].get('background'),
-                picture: response[i].get('itemPicture')._url,
-                featured: response[i].get('featured'),
-                staffPicked: response[i].get('staffPicked'),
-                id: response[i].id,
-            })
-        }
-
         $ionicLoading.hide();
     }, function(error) {
         //Something went wrong!
@@ -612,12 +567,29 @@ angular.module('Helpers.controllers', [])
     }
 
     $scope.canGivePoint = function(user) {
-        return $scope.ItemData.get('user').email !== user.email || !$scope.ItemData.get('user').isGraded;
+        if(!$scope.isCreator) return false;
+        var list_users = $scope.ItemData.get('user');
+        for(var c in list_users) {
+            if(user.email === list_users[c].email) {
+                return !list_users[c].isGraded;
+            }
+        }
+        return false;
     }
 
     $scope.isCreator = function() {
         if($rootScope.currentUser) {
             return $rootScope.currentUser.email == $scope.ItemData.get('creator');
+        }
+        return false;
+    }
+
+    $scope.alreadyFavored = function() {
+        var list_users = $scope.ItemData.get('user');
+        for(var c in list_users) {
+            if($rootScope.currentUser && $rootScope.currentUser.email === list_users[c].email) {
+                return true;
+            }
         }
         return false;
     }
@@ -628,7 +600,13 @@ angular.module('Helpers.controllers', [])
             points: user.points + $scope.ItemData.attributes.points
         }, {
             success: function(status) {
-                $scope.ItemData.set('user', {email: $scope.ItemData.get('user').email, isGraded: true});
+                var old = $scope.ItemData.get('user');
+                for(var c in old) {
+                    if(old[c].email === user.email) {
+                        old[c].isGraded = true;
+                    }
+                }
+                $scope.ItemData.set('user', old);
                 $scope.ItemData.save();
                 $scope.$apply();
             },
@@ -640,10 +618,6 @@ angular.module('Helpers.controllers', [])
             title: 'Give points',
             template: 'You have given this user points successfully!'
         });
-    }
-
-    $scope.alreadyFavored = function() {
-        return Object.keys($scope.ItemData.get('user')).length > 0;
     }
 
     $scope.getItemDetails = function() {
@@ -737,6 +711,7 @@ angular.module('Helpers.controllers', [])
                 comment.set("comment", '(confirmed attending)');
                 comment.save();
             });
+            $scope.$apply();
         }, function(error) {
             //Something went wrong!
         });
@@ -1150,20 +1125,13 @@ angular.module('Helpers.controllers', [])
         alert('Failed because: ' + message);
     }
     $scope.send = function() {
-
         // Checking if user is logged in
-
-
         if ($rootScope.currentUser) {
             var ItemCreate = Parse.Object.extend("Items");
             var Item = new ItemCreate();
             Item.set("itemName", $scope.item.itemName);
-            Item.set("approved", true);
             Item.set("blocked", false);
-            Item.set("featured", false);
             Item.set("itemDescription", $scope.item.itemDescription);
-            Item.set("reported", false);
-            Item.set("staffPicked", false);
             Item.set("points", $scope.item.points)
             Item.set("categorySelect", $scope.item.categorySelect);
             Item.set("itemCoords", $rootScope.currentUser.get('coords'));
@@ -1173,8 +1141,8 @@ angular.module('Helpers.controllers', [])
             Item.set("itemPicture", $scope.parseFile);
             Item.save();
             $ionicPopup.alert({
-                title: 'Congratulations!',
-                template: 'We will review your listing in a bit.'
+                title: 'Confirmation',
+                template: 'Your compaign has been added successfully'
             });
             $state.transitionTo("app.home");
         } else {
@@ -1198,12 +1166,8 @@ angular.module('Helpers.controllers', [])
             var ItemCreate = Parse.Object.extend("Items");
             var Item = new ItemCreate();
             Item.set("itemName", $scope.item.itemName);
-            Item.set("approved", true);
             Item.set("blocked", false);
-            Item.set("featured", false);
             Item.set("itemDescription", $scope.item.itemDescription);
-            Item.set("reported", false);
-            Item.set("staffPicked", false);
             Item.set("categorySelect", $scope.item.categorySelect);
             Item.set("creator", $scope.item.userEmail);
             Item.set("points", $scope.item.points)
@@ -1236,8 +1200,8 @@ angular.module('Helpers.controllers', [])
             // user.save();
 
             $ionicPopup.alert({
-                title: 'Congratulations!',
-                template: 'We will review your listing in a bit. In the meantime verify your email.'
+                title: 'Confirmation',
+                template: 'Your compaign has been added successfully'
             });
             $state.transitionTo("app.home");
         }

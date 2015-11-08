@@ -29,6 +29,13 @@
                   <span ng-show="registerForm.phone.$error.required">Phone is required.</span>
               </span>
         </label>
+        <label class="item item-input item-floating-label">
+            <span class="input-label">Your occupation</span>
+          <input type="text" placeholder="Occupation" ng-model="registerData.occupation" required name="occupation">
+              <span class="validError" ng-show="myForm.name.$dirty && myForm.name.$invalid">
+                  <span ng-show="registerForm.occupation.$error.required">Occupation is required.</span>
+              </span>
+        </label>
         <list class="item item-input item-button-right item-floating-label">
             <span class="input-label">Where are you from?</span>
           <input type="text" placeholder="Location" ng-model="registerData.location" required name="location">

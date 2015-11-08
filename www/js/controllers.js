@@ -125,6 +125,7 @@ angular.module('Helpers.controllers', [])
         user.set("password", $scope.registerData.password);
         user.set("email", $scope.registerData.email);
         user.set("phone", $scope.registerData.phone);
+        user.set("occupation", $scope.registerData.occupation);
         user.set("location", $scope.registerData.location);
         user.set("coords", $scope.registerData.coords);
         user.set("avatar", $scope.parseFileavatar);
@@ -691,7 +692,6 @@ angular.module('Helpers.controllers', [])
         $scope.Comments = [];
 
         $scope.getComments = function() {
-
             ParseServices.getComments($scope.ItemData).then(function(response) {
                 for (var i = 0; i < response.length; i++) {
                     var item = response[i].get("item");
@@ -794,7 +794,6 @@ angular.module('Helpers.controllers', [])
 
                         var user = response[i].get('user');
                         var item = response[i].get('item');
-
                         $scope.Comments.push({
                             comment: response[i].get('comment'),
                             userEmail: user.get('email'),
@@ -1107,6 +1106,7 @@ angular.module('Helpers.controllers', [])
             user.set("password", $scope.item.userPassword);
             user.set("email", $scope.item.userEmail);
             user.set("phone", $scope.item.userTel);
+            user.set("occupation", $scope.item.userOccupation);
             user.set("location", $scope.item.location);
             user.set("coords", $scope.item.coords);
             user.set("avatar", $scope.parseFileavatar)

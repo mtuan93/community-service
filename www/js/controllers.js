@@ -412,28 +412,24 @@ angular.module('Helpers.controllers', [])
         template: 'Loading...'
     });
 
-    $scope.Comments = [];
+    $scope.Leaderboards = [];
 
     $scope.leaderboard = function() {
         ParseServices.leaderboard().then(function(response) {
-            // for (var i = 0; i < response.length; i++) {
-            //     var item = response[i].get("item");
-            //     var user = response[i].get("user");
-            //     var avatar = "";
-            //     if (user.get('avatar')) {
-            //         avatar = user.get('avatar')._url;
-            //     } else {
-            //         avatar = 'img/avatar.png';
-            //     }
-            //     $scope.Comments.push({
-            //         comment: response[i].get('comment'),
-            //         userEmail: user.get('email'),
-            //         userAvatar: avatar
-            //     })
-            //     $scope.$apply();
+            for (var i = 0; i < response.length; i++) {
+                var points = response[i].get("points");
+                var email = response[i].get('email');
+                var place = i + 1;
 
-            // }
-            // $ionicLoading.hide();
+                $scope.Leaderboards.push({
+                    userEmail: email,
+                    points: points,
+                    place: place,
+                });
+                $scope.$apply();
+
+            }
+            $ionicLoading.hide();
         }, function(error) {
             //Something went wrong!
         });

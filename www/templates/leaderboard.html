@@ -12,18 +12,21 @@
         </div>
     </ion-header-bar>
     
+
     <ion-content class="padding">
         <div class="list">
-            <div class="center item" ng-hide="FavItems.length">You have no favourites.</div>
-            <div class="item row itemRowList" ng-repeat="item in FavItems"> 
+            <div class="item row itemRowList" ng-repeat="user in Leaderboards"> 
                 <div class="col col-20">
-                    <a class="icon ion-ios-eye-outline back-7" href="#/app/item/{{item.id}}"></a>
+                    <a class="icon ion-ios-grid-view-outline back-7">{{user.place}}</a>
                 </div>
-                <div class="col col-70">
-                    {{user.points}}                       
+
+                <div class="col col-40">
+                    {{user.points}} points
                 </div>
-                <div class="col col-10">
-                    <i class="icon ion-ios-trash-outline back-1" ng-click="removeFavourite(item.id)"></i>    
+
+                <div class="col col-40">
+                <i class="icon ion-ios-email-outline"></i>
+                    {{user.userEmail}}  
                 </div>
         </div>
   </ion-content>

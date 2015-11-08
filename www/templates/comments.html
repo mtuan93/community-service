@@ -23,9 +23,8 @@
   <div class="list" ng-init="getComments()">
     <a class="item item-avatar"  ng-repeat="comment in Comments">
             <img src="{{comment.userAvatar}}">
-            <h2>{{comment.userEmail | limitTo:3}}</h2>
+            <h2>{{comment.userEmail}}</h2>
             <p>{{comment.comment}}</p>
-      
     </a>
 </div>
           

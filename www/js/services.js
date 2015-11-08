@@ -27,7 +27,6 @@ angular.module('Helpers.services', [])
                 query.limit(limit);
             }
             if (Class == "Items") {
-                query.equalTo("approved", true);
                 query.equalTo("blocked", false);
                 query.descending("createdAt");
             }
@@ -44,7 +43,6 @@ angular.module('Helpers.services', [])
             var query = new Parse.Query(ParseString);
             query.equalTo(term1, term2);
             if (Class == "Items") {
-                query.equalTo("approved", true);
                 query.equalTo("blocked", false);
                 query.ascending("createdAt");
             }
@@ -59,7 +57,6 @@ angular.module('Helpers.services', [])
 
             var ParseString = Parse.Object.extend("Comments");
             var query = new Parse.Query(ParseString);
-            query.equalTo("approved", true);
             if (item) {
                 query.equalTo("item", item);
             }

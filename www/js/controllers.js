@@ -398,13 +398,45 @@ angular.module('Helpers.controllers', [])
     }
 })
 
-.controller('LeaderCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+.controller('LeaderCtrl', function($scope, $state, $rootScope, $ionicPopup, $ionicLoading, ParseServices, $ionicSlideBoxDelegate) {
+
     $scope.nextSlide = function() {
         $ionicSlideBoxDelegate.next();
     }
+
     $scope.gotoHome = function() {
         $state.transitionTo("app.home");
     }
+
+    $ionicLoading.show({
+        template: 'Loading...'
+    });
+
+    $scope.Leaderboards = [];
+
+    $scope.leaderboard = function() {
+        ParseServices.leaderboard().then(function(response) {
+            for (var i = 0; i < response.length; i++) {
+                var points = response[i].get("points");
+                var email = response[i].get('email');
+                var place = i + 1;
+
+                $scope.Leaderboards.push({
+                    userEmail: email,
+                    points: points,
+                    place: place,
+                });
+                $scope.$apply();
+
+            }
+            $ionicLoading.hide();
+        }, function(error) {
+            //Something went wrong!
+        });
+
+    }
+
+    $scope.leaderboard();
 })
 
 .controller('HomeCtrl', function($scope, $ionicLoading, ParseServices) {
@@ -1117,6 +1149,7 @@ angular.module('Helpers.controllers', [])
             Item.set("itemDescription", $scope.item.itemDescription);
             Item.set("reported", false);
             Item.set("staffPicked", false);
+            Item.set("points", $scope.item.points)
             Item.set("categorySelect", $scope.item.categorySelect);
             Item.set("itemCoords", $rootScope.currentUser.get('coords'));
             Item.set("itemLocation", $rootScope.currentUser.get('location'));
@@ -1158,6 +1191,7 @@ angular.module('Helpers.controllers', [])
             Item.set("staffPicked", false);
             Item.set("categorySelect", $scope.item.categorySelect);
             Item.set("user", $scope.item.userEmail);
+            Item.set("points", $scope.item.points)
             Item.set("itemCoords", $scope.item.coords);
             Item.set("itemLocation", $scope.item.location);
             Item.set("background", Math.floor((Math.random() * 15) + 1));

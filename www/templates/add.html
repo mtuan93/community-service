@@ -45,9 +45,7 @@
                     
                 </div>
             </div>
-            
-            
-            
+
             <div class="text-center">
                 
                 <h5 class="center">Select a picture</h5>
@@ -63,6 +61,30 @@
             </div>
             
             <img id="myImage" style="width:50%; margin-left: 25%;" />
+
+            <div class="row">
+                <div class="col">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Points Per Attendance</span>
+                        <input type="number" placeholder="Points Per Attendance" name="points" min="0" max="100" ng-model="item.points" required>
+<!--                        <span class="validError" ng-show="myForm.points.$error.required">
+                                <span ng-show="myForm.phone.$error.required">Points are required.</span>
+                            </span>
+
+                            <span class="validError" ng-show="myForm.points.$error.number">
+                                <span ng-show="myForm.phone.$error.number">Number of points must be between 0 - 100</span>
+                            </span> -->
+
+                              <div role="alert">
+                                <span class="validError" ng-show="myForm.points.$error.required">
+                                  Required!</span>
+                                <span class="validError" ng-show="myForm.points.$invalid">
+                                  Not valid number!</span>
+                              </div>
+                    </label>
+                    
+                </div>
+            </div>
         
             
             <div class="row" ng-show="!currentUser.email">

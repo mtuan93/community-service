@@ -43,17 +43,8 @@ angular.module('Helpers.controllers', [])
                 // saving current user 
                 $rootScope.currentUser = [];
                 var currentUser = Parse.User.current();
-                if (currentUser && currentUser.get('emailVerified') == "1") {
-                    $rootScope.currentUser = currentUser;
+                $rootScope.currentUser = currentUser;
                     $rootScope.currentUser.email = currentUser.get('email');
-                } else if (currentUser && currentUser.get('emailVerified') == "0") {
-                    $rootScope.currentUser.email = null;
-                    $rootScope.currentUser = null;
-                    alert('Please verify your email');
-                } else {
-                    $rootScope.currentUser.email = null;
-                    $rootScope.currentUser = null;
-                }
 
                 $scope.loginModal.hide();
                 // Do stuff after successful login.
@@ -102,15 +93,6 @@ angular.module('Helpers.controllers', [])
 
     // Perform the register action when the user submits the form
     $scope.doRegister = function() {
-
-        var base64avatar = "EVtCk6BOqgl2SnxkMgh1s4AciVrNd3AxoiUodMBB=";
-        // var fileavatar = new Parse.File("img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png", {
-        var fileavatar = new Parse.File("mainAvatarNull.png", {
-            base64: base64avatar
-        });
-        $scope.parseFileavatar = fileavatar;
-        fileavatar.save();
-
         if ($scope.registerData.coords) {
 
         } else {
@@ -140,7 +122,6 @@ angular.module('Helpers.controllers', [])
                     template: 'in order to activate your account'
                 });
                 alertPopup.then(function(res) {
-
                 });
             },
             error: function(user, error) {

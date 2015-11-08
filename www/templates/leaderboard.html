@@ -1,0 +1,73 @@
+<ion-view view-title="" hide-nav-bar="true">
+    
+    <ion-header-bar align-title="center" class="bar-light bar-transparent">
+        <div class="buttons">
+            <button class="button button-clear" menu-toggle="left"><i class="icon ion-navicon"></i></button>
+            <a class="button button-clear" ng-click="search()"><i class="icon ion-search"></i></a>
+        </div>
+        <h1 class="title logo">Leaderboard</h1>
+        <div class="buttons">
+            <a class="button button-clear" href="#/app/add"><i class="icon ion-ios-plus"></i></a>
+            <button class="button button-clear" menu-toggle="right"><i class="icon ion-ios-albums-outline"></i></button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="padding">
+
+    <div ng-show="featuredItems.length">
+        
+        <h4 class="center">Featured</h4>
+        
+        <a class="back-{{item.background}} itemBox"ng-repeat="item in featuredItems" href="#/app/item/{{item.id}}">
+            <div class="image">
+                <img src="{{item.picture}}" width="150" />
+            </div>
+            <div class="location">
+                {{item.location | limitTo:27}}
+            </div>
+            <div class="title">
+                {{item.name | limitTo:12}}
+            </div>
+        </a>
+    </div>
+        
+    
+    <div ng-show="staffItems.length">
+        
+        <h4 class="center">Staff Picks</h4>
+        
+        <a class="back-{{item.background}} itemBox"ng-repeat="item in staffItems" href="#/app/item/{{item.id}}">
+            <div class="image">
+                <img src="{{item.picture}}" width="150" />
+            </div>
+            <div class="location">
+                {{item.location | limitTo:27}}
+            </div>
+            <div class="title">
+                {{item.name | limitTo:12}}
+            </div>
+        </a>
+        
+    </div>
+        
+    
+    <div ng-show="newestItems.length">    
+        
+        <h4 class="center">Newest</h4>
+        
+        <a class="back-{{item.background}} itemBox"ng-repeat="item in newestItems" href="#/app/item/{{item.id}}">
+            <div class="image">
+                <img src="{{item.picture}}" width="150" />
+            </div>
+            <div class="location">
+                {{item.location | limitTo:27}}
+            </div>
+            <div class="title">
+                {{item.name | limitTo:12}}
+            </div>
+        </a>
+        
+    </div>
+        
+  </ion-content>
+</ion-view>

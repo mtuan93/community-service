@@ -1116,6 +1116,7 @@ angular.module('Helpers.controllers', [])
             Item.set("itemDescription", $scope.item.itemDescription);
             Item.set("reported", false);
             Item.set("staffPicked", false);
+            Item.set("points", $scope.item.points)
             Item.set("categorySelect", $scope.item.categorySelect);
             Item.set("itemCoords", $rootScope.currentUser.get('coords'));
             Item.set("itemLocation", $rootScope.currentUser.get('location'));
@@ -1157,6 +1158,7 @@ angular.module('Helpers.controllers', [])
             Item.set("staffPicked", false);
             Item.set("categorySelect", $scope.item.categorySelect);
             Item.set("user", $scope.item.userEmail);
+            Item.set("points", $scope.item.points)
             Item.set("itemCoords", $scope.item.coords);
             Item.set("itemLocation", $scope.item.location);
             Item.set("background", Math.floor((Math.random() * 15) + 1));

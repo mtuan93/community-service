@@ -71,12 +71,16 @@ angular.module('Helpers.services', [])
         },
 
         addToFavourites: function(item) {
-
             var user = $rootScope.currentUser;
             var relation = user.relation("favourites");
+            this.getFirst('Items', "objectId", item.id).then(function(response) {
+                response.set('user', {email: $rootScope.currentUser.email, isGraded: false});
+                response.save();
+            }, function(error) {
+                //Something went wrong!
+            });
             relation.add(item);
             return user.save().then(function() {
-
             }, function(error) {
                 //something went wrong!
             });

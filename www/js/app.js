@@ -19,18 +19,6 @@ angular.module('Helpers', ['ionic', 'Helpers.controllers', 'Helpers.services', '
             StatusBar.styleDefault();
         }
 
-        if (navigator.connection.type == Connection.NONE) {
-            $ionicPopup.confirm({
-                title: "Internet Disconnected",
-                content: "Please connect to the internet and come back."
-            })
-                .then(function(result) {
-                    if (!result) {
-                        ionic.Platform.exitApp();
-                    }
-                });
-        }
-
     });
 })
 

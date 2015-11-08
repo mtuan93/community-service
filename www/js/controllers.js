@@ -448,7 +448,7 @@ angular.module('Helpers.controllers', [])
     $scope.staffItems = [];
     $scope.newestItems = [];
 
-    ParseServices.getByTerm('Items', "featured", true, 0, 2).then(function(response) {
+    ParseServices.getByTerm('Items', "featured", true, 0).then(function(response) {
 
         for (var i = 0; i < response.length; i++) {
             $scope.featuredItems.push({
@@ -468,8 +468,7 @@ angular.module('Helpers.controllers', [])
         //Something went wrong!
     });
 
-    ParseServices.getByTerm('Items', "staffPicked", true, 0, 2).then(function(response) {
-
+    ParseServices.getByTerm('Items', "staffPicked", true, 0).then(function(response) {
         for (var i = 0; i < response.length; i++) {
             $scope.staffItems.push({
                 price: response[i].get('itemPrice'),
@@ -488,7 +487,7 @@ angular.module('Helpers.controllers', [])
         //Something went wrong!
     });
 
-    ParseServices.getByTerm('Items', "approved", true, 0, 2).then(function(response) {
+    ParseServices.getByTerm('Items', "approved", true, 0).then(function(response) {
 
         for (var i = 0; i < response.length; i++) {
             $scope.newestItems.push({
@@ -612,13 +611,26 @@ angular.module('Helpers.controllers', [])
         }, function(error) {});
     }
 
+    $scope.canGivePoint = function(user) {
+        return $scope.ItemData.get('user').email !== user.email || !$scope.ItemData.get('user').isGraded;
+    }
+
+    $scope.isCreator = function() {
+        if($rootScope.currentUser) {
+            return $rootScope.currentUser.email == $scope.ItemData.get('creator');
+        }
+        return false;
+    }
+
     $scope.savePoint = function(user) {
         Parse.Cloud.run('modifyUser', {
             email: user.email,
             points: user.points + $scope.ItemData.attributes.points
         }, {
             success: function(status) {
-                // the user was updated successfully
+                $scope.ItemData.set('user', {email: $scope.ItemData.get('user').email, isGraded: true});
+                $scope.ItemData.save();
+                $scope.$apply();
             },
             error: function(error) {
                 // error
@@ -646,7 +658,6 @@ angular.module('Helpers.controllers', [])
             }
 
             $scope.ItemData = response;
-
             $scope.Item.push({
                 price: response.get('itemPrice'),
                 location: response.get('itemLocation'),
@@ -659,9 +670,11 @@ angular.module('Helpers.controllers', [])
                 featured: response.get('featured'),
                 staffPicked: response.get('staffPicked'),
                 id: response.id,
+                user: response.get('user'),
+                creator: response.get('creator')
             })
 
-            ParseServices.getFirst('User', "email", $scope.ItemData.get('user')).then(function(response) {
+            ParseServices.getFirst('User', "email", $scope.ItemData.get('creator')).then(function(response) {
 
                 if (response.get('coords')) {
                     var lat = response.get('coords').latitude;
@@ -721,7 +734,6 @@ angular.module('Helpers.controllers', [])
                 comment.set("comment", '(confirmed attending)');
                 comment.save();
             });
-
         }, function(error) {
             //Something went wrong!
         });
@@ -1153,7 +1165,7 @@ angular.module('Helpers.controllers', [])
             Item.set("categorySelect", $scope.item.categorySelect);
             Item.set("itemCoords", $rootScope.currentUser.get('coords'));
             Item.set("itemLocation", $rootScope.currentUser.get('location'));
-            Item.set("user", $rootScope.currentUser.get('email'));
+            Item.set("creator", $rootScope.currentUser.get('email'));
             Item.set("background", Math.floor((Math.random() * 6) + 1));
             Item.set("itemPicture", $scope.parseFile);
             Item.save();
@@ -1190,7 +1202,7 @@ angular.module('Helpers.controllers', [])
             Item.set("reported", false);
             Item.set("staffPicked", false);
             Item.set("categorySelect", $scope.item.categorySelect);
-            Item.set("user", $scope.item.userEmail);
+            Item.set("creator", $scope.item.userEmail);
             Item.set("points", $scope.item.points)
             Item.set("itemCoords", $scope.item.coords);
             Item.set("itemLocation", $scope.item.location);

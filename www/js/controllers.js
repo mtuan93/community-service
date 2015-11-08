@@ -398,13 +398,49 @@ angular.module('Helpers.controllers', [])
     }
 })
 
-.controller('LeaderCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+.controller('LeaderCtrl', function($scope, $state, $rootScope, $ionicPopup, $ionicLoading, ParseServices, $ionicSlideBoxDelegate) {
+
     $scope.nextSlide = function() {
         $ionicSlideBoxDelegate.next();
     }
+
     $scope.gotoHome = function() {
         $state.transitionTo("app.home");
     }
+
+    $ionicLoading.show({
+        template: 'Loading...'
+    });
+
+    $scope.Comments = [];
+
+    $scope.leaderboard = function() {
+        ParseServices.leaderboard().then(function(response) {
+            // for (var i = 0; i < response.length; i++) {
+            //     var item = response[i].get("item");
+            //     var user = response[i].get("user");
+            //     var avatar = "";
+            //     if (user.get('avatar')) {
+            //         avatar = user.get('avatar')._url;
+            //     } else {
+            //         avatar = 'img/avatar.png';
+            //     }
+            //     $scope.Comments.push({
+            //         comment: response[i].get('comment'),
+            //         userEmail: user.get('email'),
+            //         userAvatar: avatar
+            //     })
+            //     $scope.$apply();
+
+            // }
+            // $ionicLoading.hide();
+        }, function(error) {
+            //Something went wrong!
+        });
+
+    }
+
+    $scope.leaderboard();
 })
 
 .controller('HomeCtrl', function($scope, $ionicLoading, ParseServices) {

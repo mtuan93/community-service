@@ -5,69 +5,26 @@
             <button class="button button-clear" menu-toggle="left"><i class="icon ion-navicon"></i></button>
             <a class="button button-clear" ng-click="search()"><i class="icon ion-search"></i></a>
         </div>
-        <h1 class="title logo">Leaderboard</h1>
+        <h1 class="title logo">global leaderboard</h1>
         <div class="buttons">
             <a class="button button-clear" href="#/app/add"><i class="icon ion-ios-plus"></i></a>
-            <button class="button button-clear" menu-toggle="right"><i class="icon ion-ios-albums-outline"></i></button>
+            <button class="button button-clear" menu-toggle="right"><i class="icon ion-ios-albums-outline"></i></button> 
         </div>
     </ion-header-bar>
-
+    
     <ion-content class="padding">
-
-    <div ng-show="featuredItems.length">
-        
-        <h4 class="center">Featured</h4>
-        
-        <a class="back-{{item.background}} itemBox"ng-repeat="item in featuredItems" href="#/app/item/{{item.id}}">
-            <div class="image">
-                <img src="{{item.picture}}" width="150" />
-            </div>
-            <div class="location">
-                {{item.location | limitTo:27}}
-            </div>
-            <div class="title">
-                {{item.name | limitTo:12}}
-            </div>
-        </a>
-    </div>
-        
-    
-    <div ng-show="staffItems.length">
-        
-        <h4 class="center">Staff Picks</h4>
-        
-        <a class="back-{{item.background}} itemBox"ng-repeat="item in staffItems" href="#/app/item/{{item.id}}">
-            <div class="image">
-                <img src="{{item.picture}}" width="150" />
-            </div>
-            <div class="location">
-                {{item.location | limitTo:27}}
-            </div>
-            <div class="title">
-                {{item.name | limitTo:12}}
-            </div>
-        </a>
-        
-    </div>
-        
-    
-    <div ng-show="newestItems.length">    
-        
-        <h4 class="center">Newest</h4>
-        
-        <a class="back-{{item.background}} itemBox"ng-repeat="item in newestItems" href="#/app/item/{{item.id}}">
-            <div class="image">
-                <img src="{{item.picture}}" width="150" />
-            </div>
-            <div class="location">
-                {{item.location | limitTo:27}}
-            </div>
-            <div class="title">
-                {{item.name | limitTo:12}}
-            </div>
-        </a>
-        
-    </div>
-        
+        <div class="list">
+            <div class="center item" ng-hide="FavItems.length">You have no favourites.</div>
+            <div class="item row itemRowList" ng-repeat="item in FavItems"> 
+                <div class="col col-20">
+                    <a class="icon ion-ios-eye-outline back-7" href="#/app/item/{{item.id}}"></a>
+                </div>
+                <div class="col col-70">
+                    {{user.points}}                       
+                </div>
+                <div class="col col-10">
+                    <i class="icon ion-ios-trash-outline back-1" ng-click="removeFavourite(item.id)"></i>    
+                </div>
+        </div>
   </ion-content>
 </ion-view>

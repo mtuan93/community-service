@@ -125,6 +125,21 @@ angular.module('Helpers.services', [])
 
         },
 
+        leaderboard: function() {
+
+            var ParseString = Parse.Object.extend("User");
+            var query = new Parse.Query(ParseString);
+            // query.equalTo("points", true);
+
+            query.ascending("points");
+            return query.find().then(function(response) {
+                console.log(response);
+                return response;
+            }, function(error) {
+                //something went wrong!
+            });
+        },
+
     }
 
 })

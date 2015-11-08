@@ -525,7 +525,6 @@ angular.module('Helpers.controllers', [])
                     location: response[i].get('itemLocation'),
                     name: response[i].get('itemName'),
                     background: response[i].get('background'),
-                    picture: response[i].get('itemPicture')._url,
                     featured: response[i].get('featured'),
                     staffPicked: response[i].get('staffPicked'),
                     id: response[i].id,
@@ -889,8 +888,7 @@ angular.module('Helpers.controllers', [])
 
     $scope.getUserComments = function() {
         $scope.Comments = [];
-
-        ParseServices.getByTerm('Items', "user", $rootScope.currentUser.get('email')).then(function(results) {
+        ParseServices.getByTerm('Items', "creator", $rootScope.currentUser.get('email')).then(function(results) {
             for (var i = 0; i < results.length; i++) {
                 var item = results[i];
 
@@ -917,7 +915,7 @@ angular.module('Helpers.controllers', [])
 
 .controller('SettingsCtrl', function($scope, $rootScope, $ionicPopup, ParseServices, locationService) {
     $scope.User = [];
-    ParseServices.getFirst('User', "email", $rootScope.currentUser.get('email')).then(function(response) {
+    ParseServices.getFirst('User', "creator", $rootScope.currentUser.get('email')).then(function(response) {
         if (response.get('avatar')) {
             var avatar = "img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png";
         } else {
@@ -1166,7 +1164,8 @@ angular.module('Helpers.controllers', [])
                 title: 'Confirmation',
                 template: 'Your compaign has been added successfully'
             });
-            $state.transitionTo("app.home");
+            $state.go("app.home", {}, {reload: true});
+            // $state.transitionTo("app.home");
         }
 
 

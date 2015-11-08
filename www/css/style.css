@@ -48,7 +48,7 @@ a {text-decoration: none; color: inherit;}
 .itemBox .location { opacity: 0.5; }
 
 
-.logo, .title { text-transform: uppercase !important; font-weight: 800 !important; font-size: 9px !important; letter-spacing: 4px; color: #8da7a9 !important;}
+.logo, .title { text-transform: uppercase !important; font-weight: 800 !important; font-size: 15px !important; letter-spacing: 4px; color: #8da7a9 !important;}
 
 .list, .item { background: transparent !important; border: 0px !important;}
 

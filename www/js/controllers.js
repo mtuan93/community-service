@@ -646,10 +646,15 @@ angular.module('Helpers.controllers', [])
         ParseServices.addToFavourites($scope.ItemData).then(function() {
             var alertPopup = $ionicPopup.alert({
                 title: 'Success',
-                template: 'Listing was added to favourites'
+                template: 'Your attendance is confirmed!'
             });
             alertPopup.then(function(res) {
-
+                var CommentCreate = Parse.Object.extend("Comments");
+                var comment = new CommentCreate();
+                comment.set("item", $scope.ItemData);
+                comment.set("user", $rootScope.currentUser);
+                comment.set("comment", '(confirmed attending)');
+                comment.save();
             });
 
         }, function(error) {

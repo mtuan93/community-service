@@ -682,10 +682,15 @@ angular.module('Helpers.controllers', [])
         ParseServices.addToFavourites($scope.ItemData).then(function() {
             var alertPopup = $ionicPopup.alert({
                 title: 'Success',
-                template: 'Listing was added to favourites'
+                template: 'Your attendance is confirmed!'
             });
             alertPopup.then(function(res) {
-
+                var CommentCreate = Parse.Object.extend("Comments");
+                var comment = new CommentCreate();
+                comment.set("item", $scope.ItemData);
+                comment.set("user", $rootScope.currentUser);
+                comment.set("comment", '(confirmed attending)');
+                comment.save();
             });
 
         }, function(error) {
@@ -802,8 +807,7 @@ angular.module('Helpers.controllers', [])
 
 })
 
-
-.controller('CommentsCtrl', function($scope, $rootScope, $ionicModal, $ionicPopup) {
+.controller('CommentsCtrl', function($scope, $rootScope, $ionicModal, $ionicPopup, ParseServices, $ionicLoading) {
     // Perform the action when the user submits the form
     $scope.doComment = function(item) {
         var CommentCreate = Parse.Object.extend("Comments");
@@ -811,13 +815,30 @@ angular.module('Helpers.controllers', [])
         comment.set("item", item);
         comment.set("user", $rootScope.currentUser);
         comment.set("comment", $scope.commentData.comment);
-        comment.set("approved", false);
-        comment.save();
-        $scope.commentsModal.hide();
-
-        $ionicPopup.alert({
-            title: "Success",
-            content: "Your comment will be approved soon."
+        comment.save().then(function() {
+            ParseServices.getComments(item).then(function(response) {
+                $scope.Comments = [];
+                for (var i = 0; i < response.length; i++) {
+                    var item = response[i].get("item");
+                    var user = response[i].get("user");
+                    var avatar = "";
+                    if (user.get('avatar')) {
+                        avatar = user.get('avatar')._url;
+                    } else {
+                        avatar = 'img/avatar.png';
+                    }
+                    $scope.Comments.push({
+                        comment: response[i].get('comment'),
+                        userEmail: user.get('email'),
+                        userAvatar: avatar
+                    });
+                }
+                $scope.$apply();
+                $ionicLoading.hide();
+                $scope.commentData.comment = '';
+            }, function(error) {
+                //Something went wrong!
+            });
         });
     }
 })

@@ -14,19 +14,19 @@
     
 
     <ion-content class="padding">
+
         <div class="list">
             <div class="item row itemRowList" ng-repeat="user in Leaderboards"> 
                 <div class="col col-20">
                     <a class="icon ion-ios-grid-view-outline back-7">{{user.place}}</a>
                 </div>
 
-                <div class="col col-40">
-                    {{user.points}} points
+                <div class="col col-20">
+                    <h3>{{user.points}} points</h3>
                 </div>
 
-                <div class="col col-40">
-                <i class="icon ion-ios-email-outline"></i>
-                    {{user.userEmail}}  
+                <div class="col col-80">
+                    <h3><i class="icon ion-ios-email-outline"></i>{{user.userEmail}}</h3>
                 </div>
         </div>
   </ion-content>

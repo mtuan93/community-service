@@ -103,7 +103,8 @@ angular.module('Helpers.controllers', [])
     // Perform the register action when the user submits the form
     $scope.doRegister = function() {
 
-        var base64avatar = "V29ya2luZyBhdCBQYXJzZSBpcyBncmVhdCE=";
+        var base64avatar = "EVtCk6BOqgl2SnxkMgh1s4AciVrNd3AxoiUodMBB=";
+        // var fileavatar = new Parse.File("img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png", {
         var fileavatar = new Parse.File("mainAvatarNull.png", {
             base64: base64avatar
         });
@@ -128,7 +129,6 @@ angular.module('Helpers.controllers', [])
         user.set("occupation", $scope.registerData.occupation);
         user.set("location", $scope.registerData.location);
         user.set("coords", $scope.registerData.coords);
-        user.set("avatar", $scope.parseFileavatar);
         user.set("points", 0);
 
         user.signUp(null, {
@@ -352,7 +352,7 @@ angular.module('Helpers.controllers', [])
 
         $scope.UserItems = [];
 
-        ParseServices.getByTerm('Items', "user", $rootScope.currentUser.get('email')).then(function(response) {
+        ParseServices.getByTerm('Items', 'creator', $rootScope.currentUser.get('email')).then(function(response) {
 
             for (var i = 0; i < response.length; i++) {
                 $scope.UserItems.push({
@@ -448,12 +448,38 @@ angular.module('Helpers.controllers', [])
 
     ParseServices.getAll('Items').then(function(response) {
         for (var i = 0; i < response.length; i++) {
+            var pic_name = "";
+            ParseServices.getFirst('Categories', 'objectId', response[i].get('categorySelect')).then(function(category) {
+                switch (category.get('categName')) {
+                    case "Animal Services":
+                        pic_name = "img/category/ani" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Delivery Driver":
+                        pic_name = "img/category/deliv" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Education":
+                        pic_name = "img/category/edu" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Emergency Relief":
+                        pic_name = "img/category/emer" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Environmental Conservation":
+                        pic_name = "img/category/" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Healthcare":
+                        pic_name = "img/category/health" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Mentorship":
+                        pic_name = "img/category/mentor" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                }
+            });
             $scope.items.push({
                 price: response[i].get('itemPrice'),
                 location: response[i].get('itemLocation'),
                 name: response[i].get('itemName'),
                 background: response[i].get('background'),
-                picture: response[i].get('itemPicture')._url,
+                picture: "img/category/emer" + Math.floor((Math.random() * 5) + 1) + ".jpg",
                 id: response[i].id
             });
         }
@@ -555,7 +581,7 @@ angular.module('Helpers.controllers', [])
             $scope.Users = [];
             for (var i = 0; i < response.length; i++) {
                 $scope.Users.push({
-                    avatar: response[i].attributes.avatar._url,
+                    avatar: "img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png",
                     email: response[i].attributes.email,
                     location: response[i].attributes.location,
                     phone: response[i].attributes.phone,
@@ -567,10 +593,10 @@ angular.module('Helpers.controllers', [])
     }
 
     $scope.canGivePoint = function(user) {
-        if(!$scope.isCreator) return false;
+        if (!$scope.isCreator) return false;
         var list_users = $scope.ItemData.get('user');
-        for(var c in list_users) {
-            if(user.email === list_users[c].email) {
+        for (var c in list_users) {
+            if (user.email === list_users[c].email) {
                 return !list_users[c].isGraded;
             }
         }
@@ -578,7 +604,7 @@ angular.module('Helpers.controllers', [])
     }
 
     $scope.isCreator = function() {
-        if($rootScope.currentUser) {
+        if ($rootScope.currentUser) {
             return $rootScope.currentUser.email == $scope.ItemData.get('creator');
         }
         return false;
@@ -586,8 +612,8 @@ angular.module('Helpers.controllers', [])
 
     $scope.alreadyFavored = function() {
         var list_users = $scope.ItemData.get('user');
-        for(var c in list_users) {
-            if($rootScope.currentUser && $rootScope.currentUser.email === list_users[c].email) {
+        for (var c in list_users) {
+            if ($rootScope.currentUser && $rootScope.currentUser.email === list_users[c].email) {
                 return true;
             }
         }
@@ -601,8 +627,8 @@ angular.module('Helpers.controllers', [])
         }, {
             success: function(status) {
                 var old = $scope.ItemData.get('user');
-                for(var c in old) {
-                    if(old[c].email === user.email) {
+                for (var c in old) {
+                    if (old[c].email === user.email) {
                         old[c].isGraded = true;
                     }
                 }
@@ -634,23 +660,47 @@ angular.module('Helpers.controllers', [])
                 var lat = 0;
                 var lon = 0;
             }
-
-            $scope.ItemData = response;
-            $scope.Item.push({
-                price: response.get('itemPrice'),
-                location: response.get('itemLocation'),
-                name: response.get('itemName'),
-                background: response.get('background'),
-                picture: response.get('itemPicture')._url,
-                lat: lat,
-                lon: lon,
-                description: response.get('itemDescription'),
-                featured: response.get('featured'),
-                staffPicked: response.get('staffPicked'),
-                id: response.id,
-                user: response.get('user'),
-                creator: response.get('creator')
-            })
+            var pic_name = "";
+            ParseServices.getFirst('Categories', 'objectId', response.get('categorySelect')).then(function(category) {
+                switch(category.get('categName')) {
+                    case "Animal Services" :
+                        pic_name = "img/category/ani" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Delivery Driver" :
+                        pic_name = "img/category/deliv" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Education" :
+                        pic_name = "img/category/edu" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Emergency Relief" :
+                        pic_name = "img/category/emer" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Environmental Conservation" :
+                        pic_name = "img/category/" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Healthcare" :
+                        pic_name = "img/category/health" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                    case "Mentorship" :
+                        pic_name = "img/category/mentor" + Math.floor((Math.random() * 5) + 1) + ".jpg";
+                        break;
+                }
+                $scope.ItemData = response;
+                $scope.Item.push({
+                    price: response.get('itemPrice'),
+                    location: response.get('itemLocation'),
+                    name: response.get('itemName'),
+                    background: response.get('background'),
+                    picture: pic_name,
+                    lat: lat,
+                    lon: lon,
+                    description: response.get('itemDescription'),
+                    featured: response.get('featured'),
+                    staffPicked: response.get('staffPicked'),
+                    id: response.id,
+                    user: response.get('user'),
+                    creator: response.get('creator')
+                });
 
             ParseServices.getFirst('User', "email", $scope.ItemData.get('creator')).then(function(response) {
 
@@ -664,7 +714,7 @@ angular.module('Helpers.controllers', [])
                 $scope.Submitter.push({
                     email: response.get('email'),
                     phone: response.get('phone'),
-                    avatar: response.get('avatar').url,
+                    avatar: "img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png",
                     lat: lat,
                     lon: lon,
                 });
@@ -672,6 +722,7 @@ angular.module('Helpers.controllers', [])
                 $ionicLoading.hide();
             }, function(error) {
                 //Something went wrong!
+            });
             });
 
         }, function(error) {
@@ -763,12 +814,7 @@ angular.module('Helpers.controllers', [])
                 for (var i = 0; i < response.length; i++) {
                     var item = response[i].get("item");
                     var user = response[i].get("user");
-                    var avatar = "";
-                    if (user.get('avatar')) {
-                        avatar = user.get('avatar')._url;
-                    } else {
-                        avatar = 'img/avatar.png';
-                    }
+                    var avatar = "img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png";
                     $scope.Comments.push({
                         comment: response[i].get('comment'),
                         userEmail: user.get('email'),
@@ -840,12 +886,7 @@ angular.module('Helpers.controllers', [])
                 for (var i = 0; i < response.length; i++) {
                     var item = response[i].get("item");
                     var user = response[i].get("user");
-                    var avatar = "";
-                    if (user.get('avatar')) {
-                        avatar = user.get('avatar')._url;
-                    } else {
-                        avatar = 'img/avatar.png';
-                    }
+                    var avatar = "img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png";
                     $scope.Comments.push({
                         comment: response[i].get('comment'),
                         userEmail: user.get('email'),
@@ -897,7 +938,7 @@ angular.module('Helpers.controllers', [])
     $scope.User = [];
     ParseServices.getFirst('User', "email", $rootScope.currentUser.get('email')).then(function(response) {
         if (response.get('avatar')) {
-            var avatar = response.get('avatar')._url;
+            var avatar = "img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png";
         } else {
             var avatar = 'img/avatar.png';
         }
@@ -942,7 +983,7 @@ angular.module('Helpers.controllers', [])
         parseFile.save().then(function() {
 
             var user = $scope.currentUser;
-            user.set("avatar", $scope.parseFile);
+            user.set("avatar", "img/avatar/" + Math.floor((Math.random() * 20) + 1) + ".Png");
             user.save();
             $ionicPopup.alert({
                 title: "Success",
@@ -1115,7 +1156,7 @@ angular.module('Helpers.controllers', [])
         });
         $scope.parseFile = parseFile;
         parseFile.save().then(function() {
-
+            $scope.$apply();
         }, function(error) {
             // The file either could not be read, or could not be saved to Parse.
         });
@@ -1140,65 +1181,6 @@ angular.module('Helpers.controllers', [])
             Item.set("background", Math.floor((Math.random() * 6) + 1));
             Item.set("itemPicture", $scope.parseFile);
             Item.save();
-            $ionicPopup.alert({
-                title: 'Confirmation',
-                template: 'Your compaign has been added successfully'
-            });
-            $state.transitionTo("app.home");
-        } else {
-            // If there is no logged in user                
-
-            var base64avatar = "V29ya2luZyBhdCBQYXJzZSBpcyBncmVhdCE=";
-            var fileavatar = new Parse.File("mainAvatarNull.png", {
-                base64: base64avatar
-            });
-            $scope.parseFileavatar = fileavatar;
-            fileavatar.save();
-
-            if ($scope.item.coords) {
-
-            } else {
-                $scope.item.coords = new Parse.GeoPoint({
-                    latitude: 0,
-                    longitude: 0
-                });
-            }
-            var ItemCreate = Parse.Object.extend("Items");
-            var Item = new ItemCreate();
-            Item.set("itemName", $scope.item.itemName);
-            Item.set("blocked", false);
-            Item.set("itemDescription", $scope.item.itemDescription);
-            Item.set("categorySelect", $scope.item.categorySelect);
-            Item.set("creator", $scope.item.userEmail);
-            Item.set("points", $scope.item.points)
-            Item.set("itemCoords", $scope.item.coords);
-            Item.set("itemLocation", $scope.item.location);
-            Item.set("background", Math.floor((Math.random() * 15) + 1));
-            Item.set("itemPicture", $scope.parseFile);
-            var user = new Parse.User();
-            user.set("username", $scope.item.userEmail);
-            user.set("password", $scope.item.userPassword);
-            user.set("email", $scope.item.userEmail);
-            user.set("phone", $scope.item.userTel);
-            user.set("occupation", $scope.item.userOccupation);
-            user.set("location", $scope.item.location);
-            user.set("coords", $scope.item.coords);
-            user.set("avatar", $scope.parseFileavatar)
-
-            user.signUp(null, {
-                success: function(user) {
-                    // Hooray! Let them use the app now.
-
-                },
-                error: function(user, error) {
-                    // Show the error message somewhere and let the user try again.
-                    alert(error.message);
-                }
-            });
-
-            Item.save();
-            // user.save();
-
             $ionicPopup.alert({
                 title: 'Confirmation',
                 template: 'Your compaign has been added successfully'

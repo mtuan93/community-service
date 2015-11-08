@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('Helpers', ['ionic', 'Helpers.controllers', 'Helpers.services', 'ngMap'])
 
-.run(function($ionicPlatform, $ionicPopup) {
+.run(function($ionicPlatform, $ionicPopup, $rootScope, $ionicHistory) {
 
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -19,6 +19,10 @@ angular.module('Helpers', ['ionic', 'Helpers.controllers', 'Helpers.services', '
             StatusBar.styleDefault();
         }
 
+    });
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        $ionicHistory.clearCache();
     });
 })
 
@@ -73,7 +77,7 @@ angular.module('Helpers', ['ionic', 'Helpers.controllers', 'Helpers.services', '
         }
     })
 
-        .state('app.leaderboard', {
+    .state('app.leaderboard', {
         url: "/leaderboard",
         views: {
             'menuContent': {

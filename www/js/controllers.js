@@ -642,6 +642,10 @@ angular.module('Helpers.controllers', [])
         });
     }
 
+    $scope.alreadyFavored = function() {
+        return Object.keys($scope.ItemData.get('user')).length > 0;
+    }
+
     $scope.getItemDetails = function() {
 
         $scope.Item = [];
@@ -683,7 +687,6 @@ angular.module('Helpers.controllers', [])
                     var lat = 0;
                     var lon = 0;
                 }
-
                 $scope.Submitter.push({
                     email: response.get('email'),
                     phone: response.get('phone'),

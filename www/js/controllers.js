@@ -564,6 +564,39 @@ angular.module('Helpers.controllers', [])
         template: 'Loading...'
     });
 
+    $scope.getUsers = function() {
+        ParseServices.getByTerm('User', 'favourites', $scope.ItemData).then(function(response) {
+            $scope.Users = [];
+            for (var i = 0; i < response.length; i++) {
+                $scope.Users.push({
+                    avatar: response[i].attributes.avatar._url,
+                    email: response[i].attributes.email,
+                    location: response[i].attributes.location,
+                    phone: response[i].attributes.phone,
+                    id: response[i].id,
+                    points: response[i].attributes.points
+                })
+            }
+        }, function(error) {});
+    }
+
+    $scope.savePoint = function(user) {
+        Parse.Cloud.run('modifyUser', {
+            email: user.email,
+            points: user.points + $scope.ItemData.attributes.points
+        }, {
+            success: function(status) {
+                // the user was updated successfully
+            },
+            error: function(error) {
+                // error
+            }
+        });
+        $ionicPopup.alert({
+            title: 'Give points',
+            template: 'You have given this user points successfully!'
+        });
+    }
 
     $scope.getItemDetails = function() {
 

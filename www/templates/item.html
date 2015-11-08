@@ -52,6 +52,18 @@
             </a>
             
         </span>
+
+        <div class="list" ng-init="getUsers()">
+            <div class="item item-thumbnail-left item-button-right" ng-repeat="user in Users">
+                <img id="myAvatar" src="{{user.avatar}}">
+                <h2><i class="icon ion-ios-email-outline"></i>   {{user.email}}</h2>
+                <p><i class="icon ion-ios-navigate-outline"></i>   {{user.location}}</p>
+                <p><i class="icon ion-ios-telephone-outline"></i>   {{user.phone}}</p>
+                <button class="button button-transparent" ng-click="savePoint(user)">
+                  <i class="icon ion-android-done"></i>
+                </button>
+            </div>
+        </div>
         
     </ion-content>
     

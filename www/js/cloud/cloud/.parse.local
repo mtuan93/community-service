@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "_default": {
+      "link": "community-service"
+    },
+    "community-service": {
+      "applicationId": "hfP1Fx3cQhUUpzPtDTs4ByidmRfQFeicD7Itu76z"
+    }
+  }
+}

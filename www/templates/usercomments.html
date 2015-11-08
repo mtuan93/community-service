@@ -17,7 +17,7 @@
     <div class="center item" ng-hide="Comments.length">You have no messages.</div>
     <a class="item item-icon-right"  ng-repeat="comment in Comments" href="#/app/item/{{comment.id}}">
         <h4>{{comment.itemName}}</h4>
-        <p>{{comment.userEmail | limitTo:3}} - {{comment.comment}}</p>
+        <p>{{comment.userEmail}} - {{comment.comment}}</p>
             <i class="icon ion-ios-arrow-right"></i>
     </a>
 </div>
